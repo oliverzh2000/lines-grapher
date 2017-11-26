@@ -24,11 +24,11 @@ def events():
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
-            exit()
+            sys.exit()
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 pygame.quit()
-                exit()
+                sys.exit()
             if event.key == K_EQUALS or event.key == K_MINUS:
                 print("penis")
                 if event.key == K_EQUALS and key.get_pressed()[K_EQUALS]:
@@ -161,7 +161,8 @@ try:
     image_surf = pygame.image.load(sys.argv[1]).convert()
 except:
     print("Usage: python lines.py 'image name'")
-    exit()
+    print("   or: lines.exe 'image name'")
+    sys.exit()
 image_width, image_height = image_surf.get_size()
 trans_image_surf = image_surf
 trans_image_rect = trans_image_surf.get_rect()
