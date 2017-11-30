@@ -8,6 +8,5 @@ try:
         if user_prompt in ("exit", "quit"):
             break
 except:
-    print("Usage: python lines_clipboard.py 'file name'")
-    print("   or: lines_clipboard.exe 'file name'")
+    print("Usage: lines_clipboard.exe 'file name'")
     sys.exit()

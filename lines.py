@@ -113,7 +113,7 @@ def undo_line():
 
 
 def export_lines():
-    with open(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + ".txt", "w") as out_file:
+    with open("lines_"+ datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + ".txt", "w") as out_file:
         for line in lines:
             lin_equation = get_lin_equation(line, 0.001)
             if lin_equation:
@@ -145,6 +145,10 @@ def get_lin_equation(line_seg, vertical_thres):
     start, end = line_seg
     x1, y1 = start
     x2, y2 = end
+    x1 *= desmos_scale
+    y1 *= desmos_scale
+    x2 *= desmos_scale
+    y2 *= desmos_scale
     if start != end:
         if abs(x2 - x1) < vertical_thres:
             avg_x, min_y, max_y = map(str, [round((x1 + x2) / 2, 4), round(min(y1, y2), 4), round(max(y1, y2), 4)])
@@ -156,13 +160,16 @@ def get_lin_equation(line_seg, vertical_thres):
             return m + "x+" + b + "\left\{" + min_x + "<x<" + max_x + r"\right\}"
     return ""
 
-
-try:
-    image_surf = pygame.image.load(sys.argv[1]).convert()
-except:
-    print("Usage: python lines.py 'image name'")
-    print("   or: lines.exe 'image name'")
+if len(sys.argv) < 2 or len(sys.argv) > 3:
+    print("Usage: lines.exe 'image name' (optional) 'scale'")
     sys.exit()
+
+image_surf = pygame.image.load(sys.argv[1]).convert()
+
+desmos_scale = 1
+if len(sys.argv) == 3:
+    desmos_scale = eval(sys.argv[2])
+
 image_width, image_height = image_surf.get_size()
 trans_image_surf = image_surf
 trans_image_rect = trans_image_surf.get_rect()
